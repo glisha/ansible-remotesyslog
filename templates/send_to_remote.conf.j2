@@ -1,0 +1,10 @@
+
+{% if remotesyslog_proto == "tcp" %}
+*.* @@{{ remotesyslog_host }}:{{ remotesyslog_port }}
+{% elif remotesyslog_proto == "relp" %}
+$ModLoad omrelp
+*.* :omrelp:{{ remotesyslog_host }}:{{ remotesyslog_port }}
+{% else %}
+*.* @{{ remotesyslog_host }}:{{ remotesyslog_port }}
+{% endif %}
+

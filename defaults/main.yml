@@ -1,0 +1,4 @@
+---
+remotesyslog_host: "log.example.com"
+remotesyslog_port: "601"
+remotesyslog_proto: "tcp"

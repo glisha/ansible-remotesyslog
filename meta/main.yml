@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: glisha
+  description: Configures rsyslog to send all logs to a central log server.
+  license: MIT
+  min_ansible_version: 1.4
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  - name: Debian
+    versions:
+    - wheezy
+  categories:
+  - monitoring
+  - system

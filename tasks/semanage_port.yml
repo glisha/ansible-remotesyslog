@@ -1,0 +1,21 @@
+---
+- name: Check SELinux status
+  command: /usr/sbin/getenforce
+  changed_when: false
+  register: selinuxenforcing
+
+- name: Ensure the semanage tool is installed
+  yum: name=policycoreutils-python state=present
+  when: selinuxenforcing.stdout.find("Enforcing") != -1
+
+- name: Register all SELinux managed ports
+  command: /usr/sbin/semanage port -l
+  register: semanageports
+  changed_when: False
+  when: selinuxenforcing.stdout.find("Enforcing") != -1
+
+## Allow rsyslog to use the non-standard port in selinux, REPL is tcp.
+- name: Allow rsyslog to use the non-standard port in selinux
+  command: /usr/sbin/semanage port -a -t syslogd_port_t -p {{ remotesyslog_proto | replace("repl","tcp") }} {{ remotesyslog_port }}
+  when: selinuxenforcing.stdout.find("Enforcing") != -1
+        and semanageports.stdout.find("{{ remotesyslog_port }}") == -1

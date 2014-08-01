@@ -1,0 +1,9 @@
+---
+- name: Add configuration to forward all logs to a remote machine
+  template: src=send_to_remote.conf.j2
+            dest=/etc/rsyslog.d/send_to_remote.conf
+  notify: restart rsyslog
+
+- include: semanage_port.yml
+  when: ansible_os_family == "RedHat"
+
