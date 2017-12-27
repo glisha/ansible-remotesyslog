@@ -18,4 +18,4 @@
 - name: Allow rsyslog to use the non-standard port in selinux
   command: /usr/sbin/semanage port -a -t syslogd_port_t -p {{ remotesyslog_proto | replace("repl","tcp") }} {{ remotesyslog_port }}
   when: selinuxenforcing.stdout.find("Enforcing") != -1
-        and semanageports.stdout.find("{{ remotesyslog_port }}") == -1
+        and semanageports.stdout.find(remotesyslog_port) == -1
